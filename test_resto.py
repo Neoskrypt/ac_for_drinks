@@ -1,4 +1,5 @@
 #https://github.com/mafm/ledger.py/blob/master/test_ledger.py
+#https://pymotw.com/2/shelve/
 import resto
 
 ################################################################################
@@ -15,5 +16,6 @@ print(dr)
 print(dr._dict())
 dr.set("Martini",15)
 print(dr)
-dr.set("Martini",15)
-print(dr)
+
+
+dr.loadBinary()
