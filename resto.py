@@ -44,11 +44,11 @@ def display():
 
 ###############################################################################
 def choice():
-    ans = {"1":Drink,"2":display}
+
     print("What do you want to do ?-> ")
     print("Add the drinks - 1\n List of drinks - 2")
     choice = input()
-    #ans[choice]()
+    
     if choice == "1":
         d1 = Drink("Beer light",10)
         d2 = Drink("Martini",8)
