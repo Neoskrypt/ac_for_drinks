@@ -41,10 +41,20 @@ class Adder(DictDrink):
             print(i,db[i])
         db.close()
 
-b = DictDrink("Beer",5)
-b1 = DictDrink("",8)
+def main():
+    print("What do you want to do ?-> ")
+    print("Add the drinks - 1\n List of drinks - 2")
+    choice = input()
 
-#c = Adder.add(b1)
-#print(c)
+    if choice == "1":
+        b = DictDrink("Beer light",10)
+        b1 = DictDrink("Martini",8)
+        c = Adder.add(b1)
+    elif choice == "2":
+        Adder.display()
 
-print(Adder.display())
+
+#######################################################################
+if __name__ == "__main__":
+    resto.py
+    main()
