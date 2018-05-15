@@ -1,5 +1,5 @@
 import shelve
-import exeptions_new as ex
+import exeptions as ex
 # import json
 
 class DictDrink:
@@ -19,9 +19,8 @@ class DictDrink:
 class Adder(DictDrink):
     def __init__(self,name,amount):
         super().__init__(name,amount)
-    def add(self):
+    def add(self,name):
         db = shelve.open("db","c")
-        name = input("Enter name of dataDase->")
         db[name] = DictDrink.to_dict(self)
         if self.name in db:
             raise ex.DrinkAlreadyExists("")
@@ -35,26 +34,39 @@ class Adder(DictDrink):
             print("Drink successfully added!!!\n name = {} litres = {}".
             format(self.name,self.amount))
         return db[name]
-    def display():
-        db = shelve.open("db","w")
-        for i in db:
-            print(i,db[i])
-        db.close()
+    def display(self,name):
+        """ вывод на экран обьектов заданного типа"""
+        db = shelve.open("db")
+        if self.name not in db:
+            """ если напитка нет в БД"""
+            raise ex.NotFound("")
+        else:
+            db = db.get(name,"Undefined")
 
+            #print(db) # print as dict
+            print((";\n".join("%s=>%s" % i for i in db.items())))
+
+
+
+###############################################################################
 def main():
     print("What do you want to do ?-> ")
     print("Add the drinks - 1\n List of drinks - 2")
     choice = input()
 
     if choice == "1":
-        b = DictDrink("Beer light",10)
-        b1 = DictDrink("Martini",8)
-        c = Adder.add(b1)
+        name = input("Enter kind of drink->")
+        brand = input("Enter mark of drink-> ")
+        lts = float(input("Enter litres-> "))
+        b = DictDrink(brand,lts)
+        c = Adder.add(b,name)
     elif choice == "2":
-        Adder.display()
+        brand = input("Enter mark of drink->") # for example Beer
+        b = DictDrink(brand)
+        c = Adder.display(b,brand)
 
 
-#######################################################################
+###############################################################################
 if __name__ == "__main__":
 
     main()
