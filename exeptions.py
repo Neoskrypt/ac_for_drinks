@@ -21,4 +21,4 @@ class PassArgs(BaseError):
     def __init__(self,reason):
         super().__init__(reason)
     def __str__(self):
-        return "error in the passed arguments {}".format(self._reason)
+        return "Error in the passed arguments {}".format(self._reason)
