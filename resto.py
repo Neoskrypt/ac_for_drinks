@@ -1,6 +1,8 @@
 import shelve
 import exeptions as ex
 # import json
+import sys
+from sys import argv
 
 class DictDrink:
 
@@ -19,8 +21,9 @@ class DictDrink:
 class Adder(DictDrink):
     def __init__(self,name,amount):
         super().__init__(name,amount)
-    def add(self,name):
+    def add(self):
         db = shelve.open("db","c")
+        name = "Drink"
         db[name] = DictDrink.to_dict(self)
         if self.name in db:
             raise ex.DrinkAlreadyExists("")
@@ -42,31 +45,44 @@ class Adder(DictDrink):
             raise ex.NotFound("")
         else:
             db = db.get(name,"Undefined")
-
             #print(db) # print as dict
             print((";\n".join("%s=>%s" % i for i in db.items())))
+    @staticmethod
+    def _list():
+        """print list of drinks"""
+        db = shelve.open("db", flag='c', protocol=None, writeback=False)
+        names_only = input("Names only [Y/n] ->")
 
+        if names_only == "Y":
+            for name in db.keys():
+                print(name)
+        elif names_only == "n":
+            for key in db.items():
+                print(key, sep=' ', end='\n', file=sys.stdout, flush=False)
+            #print((";\n".join("%s=>%s" % i for i in db.items())))
 
 
 ###############################################################################
-def main():
-    print("What do you want to do ?-> ")
-    print("Add the drinks - 1\n List of drinks - 2")
-    choice = input()
-
-    if choice == "1":
-        name = input("Enter kind of drink->")
-        brand = input("Enter mark of drink-> ")
-        lts = float(input("Enter litres-> "))
-        b = DictDrink(brand,lts)
-        c = Adder.add(b,name)
-    elif choice == "2":
-        brand = input("Enter mark of drink->") # for example Beer
-        b = DictDrink(brand)
-        c = Adder.display(b,brand)
 
 
 ###############################################################################
 if __name__ == "__main__":
 
-    main()
+    arg_command = sys.argv[0]
+
+    if len(sys.argv) > 1:
+        arg_command = sys.argv[1]
+        print("list", sep=' ', end='\n', file=sys.stdout, flush=False) # for to check
+        print("add", sep=' ', end='\n', file=sys.stdout, flush=False) # for to check
+        #command = input()
+    else:
+        sys.exit(1)
+
+    if arg_command == "add":
+
+        b = DictDrink("Borjomi",1.5)
+        c = Adder.add(b)
+    elif arg_command == "list":
+        c = Adder._list()
+    else:
+        sys.exit(1)
